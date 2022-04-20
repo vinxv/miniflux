@@ -26,14 +26,17 @@ func Serve(store *storage.Storage, pool *worker.Pool) {
 		config.Opts.BatchSize(),
 	)
 
-	go cleanupScheduler(
-		store,
-		config.Opts.CleanupFrequencyHours(),
-		config.Opts.CleanupArchiveReadDays(),
-		config.Opts.CleanupArchiveUnreadDays(),
-		config.Opts.CleanupArchiveBatchSize(),
-		config.Opts.CleanupRemoveSessionsDays(),
-	)
+	if !config.Opts.IsCleanupDisabled() {
+		go cleanupScheduler(
+			store,
+			config.Opts.CleanupFrequencyHours(),
+			config.Opts.CleanupArchiveReadDays(),
+			config.Opts.CleanupArchiveUnreadDays(),
+			config.Opts.CleanupArchiveBatchSize(),
+			config.Opts.CleanupRemoveSessionsDays(),
+		)
+	}
+
 }
 
 func feedScheduler(store *storage.Storage, pool *worker.Pool, frequency, batchSize int) {

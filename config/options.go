@@ -69,6 +69,7 @@ const (
 	defaultMetricsAllowedNetworks             = "127.0.0.1/8"
 	defaultWatchdog                           = true
 	defaultInvidiousInstance                  = "yewtu.be"
+	defaultDisabledCleanup                    = false
 )
 
 var defaultHTTPClientUserAgent = "Mozilla/5.0 (compatible; Miniflux/" + version.Version + "; +https://miniflux.app)"
@@ -137,6 +138,7 @@ type Options struct {
 	metricsAllowedNetworks             []string
 	watchdog                           bool
 	invidiousInstance                  string
+	disabledCleanup                    bool
 }
 
 // NewOptions returns Options with default values.
@@ -196,6 +198,7 @@ func NewOptions() *Options {
 		metricsAllowedNetworks:             []string{defaultMetricsAllowedNetworks},
 		watchdog:                           defaultWatchdog,
 		invidiousInstance:                  defaultInvidiousInstance,
+		disabledCleanup:                    defaultDisabledCleanup,
 	}
 }
 
@@ -490,6 +493,10 @@ func (o *Options) InvidiousInstance() string {
 	return o.invidiousInstance
 }
 
+func (o *Options) IsCleanupDisabled() bool {
+	return o.disabledCleanup
+}
+
 // SortedOptions returns options as a list of key value pairs, sorted by keys.
 func (o *Options) SortedOptions(redactSecret bool) []*Option {
 	var keyValues = map[string]interface{}{
@@ -551,6 +558,7 @@ func (o *Options) SortedOptions(redactSecret bool) []*Option {
 		"SERVER_TIMING_HEADER":                   o.serverTimingHeader,
 		"WORKER_POOL_SIZE":                       o.workerPoolSize,
 		"WATCHDOG":                               o.watchdog,
+		"CLEANUP_DISABLED":                       o.disabledCleanup,
 	}
 
 	keys := make([]string, 0, len(keyValues))

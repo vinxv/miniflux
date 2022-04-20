@@ -1058,6 +1058,40 @@ func TestDisableSchedulerService(t *testing.T) {
 	}
 }
 
+func TestEnableCleanup(t *testing.T) {
+	os.Clearenv()
+	parser := NewParser()
+	opts, err := parser.ParseEnvironmentVariables()
+	if err != nil {
+		t.Fatalf(`Parsing failure: %v`, err)
+	}
+
+	expected := false
+	result := opts.IsCleanupDisabled()
+
+	if result != expected {
+		t.Fatalf(`Unexpected DISABLE_CLEANUP value, got %v instead of %v`, result, expected)
+	}
+}
+
+func TestDisableCleanup(t *testing.T) {
+	os.Clearenv()
+
+	os.Setenv("CLEANUP_DISABLED", "1")
+	parser := NewParser()
+	opts, err := parser.ParseEnvironmentVariables()
+	if err != nil {
+		t.Fatalf(`Parsing failure: %v`, err)
+	}
+
+	expected := true
+	result := opts.IsCleanupDisabled()
+
+	if result != expected {
+		t.Fatalf(`Unexpected DISABLE_CLEANUP value, got %v instead of %v`, result, expected)
+	}
+}
+
 func TestRunMigrationsWhenUnset(t *testing.T) {
 	os.Clearenv()
 

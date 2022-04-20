@@ -197,6 +197,8 @@ func (p *Parser) parseLines(lines []string) (err error) {
 			p.opts.watchdog = parseBool(value, defaultWatchdog)
 		case "INVIDIOUS_INSTANCE":
 			p.opts.invidiousInstance = parseString(value, defaultInvidiousInstance)
+		case "CLEANUP_DISABLED":
+			p.opts.disabledCleanup = parseBool(value, defaultDisabledCleanup)
 		}
 	}
 
