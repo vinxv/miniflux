@@ -221,11 +221,6 @@ type Enclosure struct {
 // Enclosures represents a list of attachments.
 type Enclosures []*Enclosure
 
-const (
-	FilterNotStarred  = "0"
-	FilterOnlyStarred = "1"
-)
-
 // Filter is used to filter entries.
 type Filter struct {
 	Status        string
@@ -233,7 +228,7 @@ type Filter struct {
 	Limit         int
 	Order         string
 	Direction     string
-	Starred       string
+	Starred       bool
 	Before        int64
 	After         int64
 	BeforeEntryID int64
